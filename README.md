@@ -1,2 +1,2 @@
-# todo
- Creating basic Todo app using  JavaScript, NodeJS, Express and PostgreSQL
+# TODO APP
+create a simple Todo app using JavaScript, NodeJS, Express and PostgreSQL.
