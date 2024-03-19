@@ -1,3 +1,4 @@
+
 import { Task } from "./Task.js";
 
 class Todos{
@@ -23,7 +24,6 @@ class Todos{
 
     #readJson = (taskAsJson) => {
         taskAsJson.forEach(node => {
-            console.log(node.id)
             const task = new Task(node.id, node.description);
             this.#tasks.push({id : task.getId(), description:task.getText()})
         });
@@ -49,6 +49,26 @@ class Todos{
                 resolve(this.#addToArray(json.id, text))
             }, (error) => {
                 reject(error);
+            })
+        })
+    }
+
+    #removeFromArray = (id) => {
+        const arrayWithoutRemoved = this.#tasks.filter(task => task.id !== id);
+        this.#tasks = arrayWithoutRemoved;
+    }
+
+    removeTask = (id) => {
+        return new Promise(async(resolve, rejects) => {
+            fetch(this.#backend_url + '/delete/' + id, {
+                method:'delete'
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                this.#removeFromArray(id)
+                resolve(json.id)
+            }, (error) => {
+                rejects(error);
             })
         })
     }
